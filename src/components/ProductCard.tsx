@@ -62,60 +62,76 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
   const originalPrice =
     "originalPrice" in product ? product.originalPrice : undefined;
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    // Convert to UIProduct format for the store
-    const uiProduct: UIProduct = {
-      id: productId.toString(),
-      name: productName,
-      description: productDescription,
-      price: productPrice,
-      originalPrice: originalPrice,
-      image: productImage,
-      category: productCategory,
-      size: productSize,
-      stock: productStock,
-      rating: productRating,
-      reviews: productReviews,
-    };
-    addToCart(uiProduct, 1);
+    try {
+      // Convert to UIProduct format for the store
+      const uiProduct: UIProduct = {
+        id: productId.toString(),
+        name: productName,
+        description: productDescription,
+        price: productPrice,
+        originalPrice: originalPrice,
+        image: productImage,
+        category: productCategory,
+        size: productSize,
+        stock: productStock,
+        rating: productRating,
+        reviews: productReviews,
+      };
+      await addToCart(uiProduct, 1);
+    } catch (error) {
+      // Show error message to user
+      alert(
+        error instanceof Error ? error.message : "Failed to add item to cart"
+      );
+    }
   };
 
   const handleViewDetails = () => {
     onViewDetails?.(product);
   };
 
-  const handlePersonalizedAdd = () => {
+  const handlePersonalizedAdd = async () => {
     if (Object.keys(details).length === 0) {
       alert("Please select at least one personalization option");
       return;
     }
 
-    // Convert to UIProduct format for the store
-    const uiProduct: UIProduct = {
-      id: productId.toString(),
-      name: productName,
-      description: productDescription,
-      price: productPrice,
-      originalPrice: originalPrice,
-      image: productImage,
-      category: productCategory,
-      size: productSize,
-      stock: productStock,
-      rating: productRating,
-      reviews: productReviews,
-    };
+    try {
+      // Convert to UIProduct format for the store
+      const uiProduct: UIProduct = {
+        id: productId.toString(),
+        name: productName,
+        description: productDescription,
+        price: productPrice,
+        originalPrice: originalPrice,
+        image: productImage,
+        category: productCategory,
+        size: productSize,
+        stock: productStock,
+        rating: productRating,
+        reviews: productReviews,
+      };
 
-    // Convert legacy format to new JSON structure
-    const newFormatDetails = convertToNewFormat(details);
+      // Convert legacy format to new JSON structure
+      const newFormatDetails = convertToNewFormat(details);
 
-    // Calculate extra price using the new structure
-    const extraPrice = calculateExtraCost(newFormatDetails);
+      // Calculate extra price using the new structure
+      const extraPrice = calculateExtraCost(newFormatDetails);
 
-    addToCart(uiProduct, quantity, newFormatDetails, extraPrice);
-    setOpen(false);
-    setQuantity(1);
-    setDetails({});
+      await addToCart(uiProduct, quantity, newFormatDetails, extraPrice);
+      setOpen(false);
+      setQuantity(1);
+      setDetails({});
+    } catch (error) {
+      // Show error message to user
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Failed to add personalized item to cart"
+      );
+    }
   };
 
   useEffect(() => {

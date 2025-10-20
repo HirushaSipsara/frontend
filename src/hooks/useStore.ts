@@ -256,6 +256,11 @@ export const useStore = create<StoreState>()(
         const { currentUser } = get();
         console.log('🔄 addToCart called:', { productId: product.id, quantity, currentUser, personalizationDetails, extraPrice });
         
+        // Require authentication for cart operations
+        if (!currentUser) {
+          throw new Error('You must be logged in to add items to cart. Please log in first.');
+        }
+        
         // Ensure personalization details are in the new format
         let normalizedPersonalizationDetails = personalizationDetails;
         if (personalizationDetails && Object.keys(personalizationDetails).length > 0) {
@@ -274,18 +279,17 @@ export const useStore = create<StoreState>()(
           totalPrice: (product.price + extraPrice) * quantity
         };
         
-        if (currentUser) {
-          try {
-            // Use the new API method if personalization details are provided
-            if (normalizedPersonalizationDetails && Object.keys(normalizedPersonalizationDetails).length > 0) {
-              await apiClient.addToCartWithPersonalization(
-                parseInt(product.id), 
-                quantity, 
-                normalizedPersonalizationDetails
-              );
-            } else {
-              await apiClient.addToCart(parseInt(product.id), quantity, normalizedPersonalizationDetails);
-            }
+        try {
+          // Use the new API method if personalization details are provided
+          if (normalizedPersonalizationDetails && Object.keys(normalizedPersonalizationDetails).length > 0) {
+            await apiClient.addToCartWithPersonalization(
+              parseInt(product.id), 
+              quantity, 
+              normalizedPersonalizationDetails
+            );
+          } else {
+            await apiClient.addToCart(parseInt(product.id), quantity, normalizedPersonalizationDetails);
+          }
             
             // Instead of syncing, just add the item to local cart
             // This prevents fetching old cart items
@@ -341,34 +345,10 @@ export const useStore = create<StoreState>()(
                 };
               }
             });
-          }
-        } else {
-          console.log('🔄 User not authenticated, adding to local cart');
-          // Local cart for non-authenticated users
-          set((state) => {
-            const existingItem = state.cart.find(item => 
-              item.id === product.id && 
-              JSON.stringify(item.personalizationDetails) === JSON.stringify(personalizationDetails)
-            );
-            if (existingItem) {
-              return {
-                cart: state.cart.map(item =>
-                  item.id === product.id && 
-                  JSON.stringify(item.personalizationDetails) === JSON.stringify(personalizationDetails)
-                    ? { 
-                        ...item, 
-                        quantity: item.quantity + quantity,
-                        totalPrice: (item.price + (item.extraPrice || 0)) * (item.quantity + quantity)
-                      }
-                    : item
-                )
-              };
-            } else {
-              return {
-                cart: [...state.cart, cartItem]
-              };
-            }
-          });
+          console.log('✅ Item added to cart successfully');
+        } catch (error) {
+          console.error('Failed to add to cart:', error);
+          throw error;
         }
       },
       removeFromCart: async (productId) => {
