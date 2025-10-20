@@ -141,14 +141,17 @@ export const useStore = create<StoreState>()(
         try {
           console.log('🔄 Fetching products with filters:', filters);
           
-          // If no filters provided, get all products
+          // For customers, always use getProducts() to avoid 403 errors
+          // For admin users, use filterProducts if filters are provided
+          const { currentUser } = get();
           let backendResponse;
-          if (!filters || Object.keys(filters).length === 0) {
-            console.log('🔄 No filters provided, fetching all products');
-            backendResponse = await apiClient.getProducts();
-          } else {
-            console.log('🔄 Filters provided, using filterProducts');
+          
+          if (currentUser === 'admin' && filters && Object.keys(filters).length > 0) {
+            console.log('🔄 Admin user with filters, using filterProducts');
             backendResponse = await apiClient.filterProducts(filters);
+          } else {
+            console.log('🔄 Customer user or no filters, fetching all products');
+            backendResponse = await apiClient.getProducts();
           }
           
           console.log('✅ Backend response received:', backendResponse);

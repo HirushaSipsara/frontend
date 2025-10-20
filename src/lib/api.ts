@@ -144,9 +144,14 @@ class ApiClient {
       'Content-Type': 'application/json',
     };
 
-    // Always check localStorage for the latest token
+    // Check if this is a public endpoint that doesn't need authentication
+    const isPublicEndpoint = url.includes('/api/products') && !url.includes('/admin') ||
+                            url.includes('/api/categories') && !url.includes('/admin') ||
+                            url.includes('/api/auth');
+    
+    // Only send token for authenticated endpoints
     const currentToken = localStorage.getItem('auth_token');
-    if (currentToken) {
+    if (currentToken && !isPublicEndpoint) {
       headers.Authorization = `Bearer ${currentToken}`;
     }
 
@@ -161,7 +166,7 @@ class ApiClient {
     };
 
     console.log('🔄 Making API request:', { url, method: options.method || 'GET', headers });
-    console.log('🔄 Auth token being sent:', currentToken);
+    console.log('🔄 Auth token being sent:', isPublicEndpoint ? 'none (public endpoint)' : currentToken);
 
     try {
       const response = await fetch(url, config);
