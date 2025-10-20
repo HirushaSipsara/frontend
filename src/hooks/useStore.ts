@@ -105,9 +105,9 @@ export const useStore = create<StoreState>()(
           throw error;
         }
       },
-      register: async (name: string, email: string, password: string) => {
+      register: async (username: string, email: string, password: string) => {
         try {
-          const response = await apiClient.register({ name, email, password });
+          const response = await apiClient.register({ username, email, password });
           const userRole = response.role.toLowerCase() as 'customer' | 'admin' | 'cashier';
           set({ 
             currentUser: userRole, 
