@@ -673,6 +673,17 @@ export const useStore = create<StoreState>()(
         }
         
         try {
+          // Sync cart with backend before checkout to ensure we have the latest cart items
+          console.log('🔄 Syncing cart with backend before checkout...');
+          await get().syncCartWithBackend();
+          
+          // Check cart state after sync
+          const { cart } = get();
+          console.log('🔄 Cart state after sync:', cart.length, 'items');
+          if (cart.length === 0) {
+            throw new Error('Your cart is empty. Please add items to your cart before checkout.');
+          }
+          
           const result = await apiClient.checkout({
             deliveryAddress,
             contactNumber,
