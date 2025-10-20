@@ -291,60 +291,32 @@ export const useStore = create<StoreState>()(
             await apiClient.addToCart(parseInt(product.id), quantity, normalizedPersonalizationDetails);
           }
             
-            // Instead of syncing, just add the item to local cart
-            // This prevents fetching old cart items
-            set((state) => {
-              const existingItem = state.cart.find(item => 
-                item.id === product.id && 
-                JSON.stringify(item.personalizationDetails) === JSON.stringify(normalizedPersonalizationDetails)
-              );
-              if (existingItem) {
-                return {
-                  cart: state.cart.map(item =>
-                    item.id === product.id && 
-                    JSON.stringify(item.personalizationDetails) === JSON.stringify(normalizedPersonalizationDetails)
-                      ? { 
-                          ...item, 
-                          quantity: item.quantity + quantity,
-                          totalPrice: (item.price + (item.extraPrice || 0)) * (item.quantity + quantity)
-                        }
-                      : item
-                  )
-                };
-              } else {
-                return {
-                  cart: [...state.cart, cartItem]
-                };
-              }
-            });
-            console.log('✅ Item added to local cart for authenticated user');
-          } catch (error) {
-            console.error('Failed to add to cart:', error);
-            // Fallback to local cart if API fails
-            set((state) => {
-              const existingItem = state.cart.find(item => 
-                item.id === product.id && 
-                JSON.stringify(item.personalizationDetails) === JSON.stringify(personalizationDetails)
-              );
-              if (existingItem) {
-                return {
-                  cart: state.cart.map(item =>
-                    item.id === product.id && 
-                    JSON.stringify(item.personalizationDetails) === JSON.stringify(personalizationDetails)
-                      ? { 
-                          ...item, 
-                          quantity: item.quantity + quantity,
-                          totalPrice: (item.price + (item.extraPrice || 0)) * (item.quantity + quantity)
-                        }
-                      : item
-                  )
-                };
-              } else {
-                return {
-                  cart: [...state.cart, cartItem]
-                };
-              }
-            });
+          // Instead of syncing, just add the item to local cart
+          // This prevents fetching old cart items
+          set((state) => {
+            const existingItem = state.cart.find(item => 
+              item.id === product.id && 
+              JSON.stringify(item.personalizationDetails) === JSON.stringify(normalizedPersonalizationDetails)
+            );
+            if (existingItem) {
+              return {
+                cart: state.cart.map(item =>
+                  item.id === product.id && 
+                  JSON.stringify(item.personalizationDetails) === JSON.stringify(normalizedPersonalizationDetails)
+                    ? { 
+                        ...item, 
+                        quantity: item.quantity + quantity,
+                        totalPrice: (item.price + (item.extraPrice || 0)) * (item.quantity + quantity)
+                      }
+                    : item
+                )
+              };
+            } else {
+              return {
+                cart: [...state.cart, cartItem]
+              };
+            }
+          });
           console.log('✅ Item added to cart successfully');
         } catch (error) {
           console.error('Failed to add to cart:', error);
