@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Product, UIProduct, CartItem, Order, Category, ProductFilterParams, PersonalizationDetails } from '@/types/product';
 import { apiClient, AuthResponse } from '@/lib/api';
-import { convertProductToUI, convertProductsToUI, convertCategoriesToUI, generateMockProducts, generateMockCategories } from '@/lib/product-utils';
+import { convertProductToUI, convertProductsToUI, convertCategoriesToUI } from '@/lib/product-utils';
 import { convertToNewFormat, calculateExtraCost } from '@/lib/personalization-utils';
 
 interface StoreState {
@@ -80,9 +80,7 @@ interface StoreState {
   getPosCartTotal: () => number;
 }
 
-// Mock data for fallback
-const mockProducts = generateMockProducts();
-const mockCategories = generateMockCategories();
+// No more mock data - we load real data from the API
 
 export const useStore = create<StoreState>()(
   persist(
@@ -123,9 +121,9 @@ export const useStore = create<StoreState>()(
         set({ currentUser: null, userInfo: null, cart: [] });
       },
 
-      // Products
-      products: mockProducts,
-      categories: mockCategories,
+      // Products - start with empty arrays, load real data from API
+      products: [],
+      categories: [],
       setProducts: (products) => set({ products }),
       setCategories: (categories) => set({ categories }),
       addProduct: (product) => set((state) => ({ 
@@ -175,9 +173,9 @@ export const useStore = create<StoreState>()(
           console.log('✅ Products set in store:', uiProducts.length, 'products');
         } catch (error) {
           console.error('❌ Failed to fetch products:', error);
-          console.log('🔄 Falling back to mock data');
-          // Fallback to mock data
-          set({ products: mockProducts });
+          console.log('🔄 API failed, using empty array instead of mock data');
+          // Don't use mock data, keep empty array
+          set({ products: [] });
         }
       },
 
@@ -192,9 +190,9 @@ export const useStore = create<StoreState>()(
           console.log('✅ Categories set in store:', uiCategories.length, 'categories');
         } catch (error) {
           console.error('❌ Failed to fetch categories:', error);
-          console.log('🔄 Falling back to mock categories');
-          // Fallback to mock data
-          set({ categories: mockCategories });
+          console.log('🔄 API failed, using empty array instead of mock data');
+          // Don't use mock data, keep empty array
+          set({ categories: [] });
         }
       },
 
