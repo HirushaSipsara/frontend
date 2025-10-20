@@ -564,12 +564,17 @@ const AdminProducts = () => {
                       <SelectContent>
                         {categories && categories.length > 0 ? (
                           categories.map((category) => (
-                            <SelectItem key={category.id} value={category.id}>
+                            <SelectItem
+                              key={category.id}
+                              value={
+                                category.id?.toString?.() ?? String(category.id)
+                              }
+                            >
                               {category.name}
                             </SelectItem>
                           ))
                         ) : (
-                          <SelectItem value="" disabled>
+                          <SelectItem value="no-categories" disabled>
                             No categories available
                           </SelectItem>
                         )}
@@ -698,7 +703,7 @@ const AdminProducts = () => {
                               </SelectItem>
                             ))
                           ) : (
-                            <SelectItem value="" disabled>
+                            <SelectItem value="no-categories" disabled>
                               No categories available
                             </SelectItem>
                           )}
