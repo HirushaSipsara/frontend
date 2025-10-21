@@ -134,32 +134,32 @@ const Profile = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <div className="container max-w-6xl mx-auto px-4 py-8">
+      <div className="container max-w-6xl mx-auto px-4 py-6 sm:py-8">
         {/* Back Button */}
-        <Button variant="ghost" onClick={() => navigate("/")} className="mb-6">
+        <Button variant="ghost" onClick={() => navigate("/")} className="mb-4 sm:mb-6 -ml-2 sm:-ml-0">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Home
         </Button>
 
         {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">My Account</h1>
-          <p className="text-muted-foreground">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">My Account</h1>
+          <p className="text-muted-foreground text-sm sm:text-base">
             Manage your account and view your order history
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
           {/* Account Information Card */}
           <div className="md:col-span-1">
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <User className="h-5 w-5" />
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                  <User className="h-4 w-4 sm:h-5 sm:w-5" />
                   Account Information
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Username</p>
                   <p className="font-medium">{userInfo?.username || "N/A"}</p>
@@ -191,10 +191,10 @@ const Profile = () => {
             </Card>
 
             {/* Order Summary Card */}
-            <Card className="mt-6">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <ShoppingBag className="h-5 w-5" />
+            <Card className="mt-4 sm:mt-6">
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                  <ShoppingBag className="h-4 w-4 sm:h-5 sm:w-5" />
                   Order Summary
                 </CardTitle>
               </CardHeader>
@@ -238,13 +238,13 @@ const Profile = () => {
           {/* Order History */}
           <div className="md:col-span-2">
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Package className="h-5 w-5" />
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                  <Package className="h-4 w-4 sm:h-5 sm:w-5" />
                   Order History
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="px-3 sm:px-6">
                 {isLoading ? (
                   <div className="space-y-4">
                     {[1, 2, 3].map((i) => (
@@ -275,7 +275,7 @@ const Profile = () => {
                       >
                         {/* Order Header */}
                         <div
-                          className="p-4 bg-muted/50 cursor-pointer"
+                          className="p-3 sm:p-4 bg-muted/50 cursor-pointer"
                           onClick={() =>
                             setExpandedOrderId(
                               expandedOrderId === order.orderId
@@ -284,40 +284,39 @@ const Profile = () => {
                             )
                           }
                         >
-                          <div className="flex items-start justify-between">
-                            <div className="space-y-1">
-                              <div className="flex items-center gap-2">
-                                <span className="font-semibold">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="space-y-1 min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="font-semibold text-sm sm:text-base">
                                   Order #{order.orderId}
                                 </span>
-                                <Badge variant={getStatusVariant(order.status)}>
+                                <Badge variant={getStatusVariant(order.status)} className="text-xs">
                                   <span className="flex items-center gap-1">
                                     {getStatusIcon(order.status)}
-                                    {order.status}
+                                    <span className="hidden sm:inline">{order.status}</span>
                                   </span>
                                 </Badge>
                               </div>
-                              <p className="text-sm text-muted-foreground">
-                                Placed on{" "}
+                              <p className="text-xs sm:text-sm text-muted-foreground">
                                 {new Date(order.orderDate).toLocaleDateString(
                                   "en-US",
                                   {
-                                    year: "numeric",
-                                    month: "long",
+                                    month: "short",
                                     day: "numeric",
+                                    year: "numeric",
                                   }
                                 )}
                               </p>
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-xs sm:text-sm text-muted-foreground">
                                 {order.orderItems?.length || 0} item(s)
                               </p>
                             </div>
-                            <div className="text-right">
-                              <p className="text-lg font-bold">
+                            <div className="text-right flex-shrink-0">
+                              <p className="text-base sm:text-lg font-bold">
                                 Rs {order.totalPrice.toFixed(2)}
                               </p>
                               <ChevronRight
-                                className={`h-5 w-5 text-muted-foreground transition-transform ${
+                                className={`h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground transition-transform ${
                                   expandedOrderId === order.orderId
                                     ? "rotate-90"
                                     : ""
@@ -329,36 +328,36 @@ const Profile = () => {
 
                         {/* Order Details (Expandable) */}
                         {expandedOrderId === order.orderId && (
-                          <div className="p-4 space-y-4">
+                          <div className="p-3 sm:p-4 space-y-3 sm:space-y-4">
                             {/* Order Items */}
                             <div>
-                              <h4 className="font-semibold mb-3">
+                              <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base">
                                 Order Items
                               </h4>
                               <div className="space-y-2">
                                 {order.orderItems?.map((item) => (
                                   <div
                                     key={item.itemId}
-                                    className="flex justify-between items-center p-3 bg-muted/30 rounded"
+                                    className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 p-2 sm:p-3 bg-muted/30 rounded"
                                   >
-                                    <div className="flex-1">
-                                      <p className="font-medium">
+                                    <div className="flex-1 min-w-0">
+                                      <p className="font-medium text-sm sm:text-base truncate">
                                         {item.productName}
                                       </p>
-                                      <p className="text-sm text-muted-foreground">
+                                      <p className="text-xs sm:text-sm text-muted-foreground">
                                         Quantity: {item.quantity} × Rs
                                         {item.price.toFixed(2)}
                                       </p>
                                       {item.personalizationDetails && (
                                         <Badge
                                           variant="outline"
-                                          className="mt-1"
+                                          className="mt-1 text-xs"
                                         >
                                           Personalized
                                         </Badge>
                                       )}
                                     </div>
-                                    <p className="font-semibold">
+                                    <p className="font-semibold text-sm sm:text-base self-end sm:self-center">
                                       Rs {item.itemTotal.toFixed(2)}
                                     </p>
                                   </div>
@@ -369,20 +368,20 @@ const Profile = () => {
                             <Separator />
 
                             {/* Delivery Information */}
-                            <div className="grid md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                               <div>
-                                <h4 className="font-semibold mb-2">
+                                <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">
                                   Delivery Address
                                 </h4>
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-xs sm:text-sm text-muted-foreground break-words">
                                   {order.deliveryAddress}
                                 </p>
                               </div>
                               <div>
-                                <h4 className="font-semibold mb-2">
+                                <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">
                                   Contact Number
                                 </h4>
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-xs sm:text-sm text-muted-foreground">
                                   {order.contactNumber}
                                 </p>
                               </div>
@@ -392,10 +391,10 @@ const Profile = () => {
 
                             {/* Order Total */}
                             <div className="flex justify-between items-center pt-2">
-                              <span className="font-semibold">
+                              <span className="font-semibold text-sm sm:text-base">
                                 Total Amount
                               </span>
-                              <span className="text-xl font-bold">
+                              <span className="text-lg sm:text-xl font-bold">
                                 Rs {order.totalPrice.toFixed(2)}
                               </span>
                             </div>

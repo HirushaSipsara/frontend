@@ -143,44 +143,47 @@ export function AdminDashboard() {
         </div>
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
               Admin Dashboard
             </h1>
-            <p className="text-muted-foreground">Manage your TeddyLove store</p>
+            <p className="text-muted-foreground text-sm sm:text-base">Manage your TeddyLove store</p>
           </div>
-          <div className="flex gap-2">
-            <Button asChild>
+          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+            <Button asChild className="flex-1 sm:flex-none">
               <Link to="/admin/products">
                 <Package className="mr-2 h-4 w-4" />
-                Manage Products
+                <span className="hidden sm:inline">Manage Products</span>
+                <span className="sm:hidden">Products</span>
               </Link>
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" className="flex-1 sm:flex-none">
               <Settings className="mr-2 h-4 w-4" />
               Settings
             </Button>
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex space-x-1 mb-8 bg-muted p-1 rounded-lg w-fit">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <Button
-                key={tab.id}
-                variant={selectedTab === tab.id ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setSelectedTab(tab.id as any)}
-                className="data-[state=active]:bg-background"
-              >
-                <Icon className="mr-2 h-4 w-4" />
-                {tab.label}
-              </Button>
-            );
-          })}
+        {/* Tabs - Responsive with horizontal scroll on mobile */}
+        <div className="mb-8 -mx-4 px-4 lg:mx-0 lg:px-0 overflow-x-auto">
+          <div className="flex space-x-1 bg-muted p-1 rounded-lg w-fit min-w-full lg:min-w-0">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <Button
+                  key={tab.id}
+                  variant={selectedTab === tab.id ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setSelectedTab(tab.id as any)}
+                  className="data-[state=active]:bg-background flex-shrink-0 touch-manipulation"
+                >
+                  <Icon className="mr-2 h-4 w-4" />
+                  <span className="whitespace-nowrap">{tab.label}</span>
+                </Button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Overview Tab */}

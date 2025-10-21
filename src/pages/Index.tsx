@@ -61,15 +61,15 @@ const Index = () => {
         <HeroSection />
 
         {/* Featured Products Section */}
-        <section className="py-16 bg-background" id="featured">
-          <div className="container max-w-screen-xl">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+        <section className="py-12 sm:py-16 bg-background" id="featured">
+          <div className="container max-w-screen-xl px-4">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
                 <span className="bg-gradient-to-r from-teddy-700 to-pink-600 bg-clip-text text-transparent">
                   Featured Products
                 </span>
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
                 Discover our handpicked selection of premium teddy bears and
                 plush toys
               </p>
@@ -165,17 +165,17 @@ const Index = () => {
 
         {/* Categories Section */}
         <section
-          className="py-16 bg-gradient-to-br from-teddy-50 to-pink-50"
+          className="py-12 sm:py-16 bg-gradient-to-br from-teddy-50 to-pink-50"
           id="categories"
         >
-          <div className="container max-w-screen-xl">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <div className="container max-w-screen-xl px-4">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
                 <span className="bg-gradient-to-r from-teddy-700 to-pink-600 bg-clip-text text-transparent">
                   Shop by Category
                 </span>
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
                 Find the perfect teddy bear for every occasion and personality
               </p>
             </div>
@@ -239,34 +239,34 @@ const Index = () => {
         </section>
 
         {/* About Section */}
-        <section className="py-16 bg-background" id="about">
-          <div className="container max-w-screen-xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8">
+        <section className="py-12 sm:py-16 bg-background" id="about">
+          <div className="container max-w-screen-xl text-center px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8">
               <span className="bg-gradient-to-r from-teddy-700 to-pink-600 bg-clip-text text-transparent">
                 Why Choose TeddyLove?
               </span>
             </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="space-y-4">
-                <div className="text-4xl">🧸</div>
-                <h3 className="text-xl font-semibold">Premium Quality</h3>
-                <p className="text-muted-foreground">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="text-3xl sm:text-4xl">🧸</div>
+                <h3 className="text-lg sm:text-xl font-semibold">Premium Quality</h3>
+                <p className="text-sm sm:text-base text-muted-foreground px-4 sm:px-0">
                   Each teddy bear is crafted with the finest materials and
                   attention to detail
                 </p>
               </div>
-              <div className="space-y-4">
-                <div className="text-4xl">❤️</div>
-                <h3 className="text-xl font-semibold">Made with Love</h3>
-                <p className="text-muted-foreground">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="text-3xl sm:text-4xl">❤️</div>
+                <h3 className="text-lg sm:text-xl font-semibold">Made with Love</h3>
+                <p className="text-sm sm:text-base text-muted-foreground px-4 sm:px-0">
                   Every bear is designed to bring joy and comfort to people of
                   all ages
                 </p>
               </div>
-              <div className="space-y-4">
-                <div className="text-4xl">🚚</div>
-                <h3 className="text-xl font-semibold">Fast Delivery</h3>
-                <p className="text-muted-foreground">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="text-3xl sm:text-4xl">🚚</div>
+                <h3 className="text-lg sm:text-xl font-semibold">Fast Delivery</h3>
+                <p className="text-sm sm:text-base text-muted-foreground px-4 sm:px-0">
                   Quick and safe delivery to bring your new friend home as soon
                   as possible
                 </p>
@@ -279,24 +279,24 @@ const Index = () => {
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
       {/* Footer */}
-      <footer className="bg-teddy-800 text-primary-foreground py-12">
-        <div className="container max-w-screen-xl">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-teddy-600 to-pink-500">
-                  <span className="text-lg font-bold">🧸</span>
+      <footer className="bg-teddy-800 text-primary-foreground py-8 sm:py-12">
+        <div className="container max-w-screen-xl px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center space-x-2 mb-3 sm:mb-4">
+                <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-gradient-to-br from-teddy-600 to-pink-500">
+                  <span className="text-base sm:text-lg font-bold">🧸</span>
                 </div>
-                <h3 className="text-xl font-bold">TeddyLove</h3>
+                <h3 className="text-lg sm:text-xl font-bold">TeddyLove</h3>
               </div>
-              <p className="text-teddy-200">
+              <p className="text-teddy-200 text-sm sm:text-base">
                 Bringing joy and comfort through premium teddy bears and plush
                 toys.
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Shop</h4>
-              <ul className="space-y-2 text-teddy-200">
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Shop</h4>
+              <ul className="space-y-1.5 sm:space-y-2 text-teddy-200 text-sm sm:text-base">
                 <li>
                   <Link
                     to="/products"
@@ -326,8 +326,8 @@ const Index = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-teddy-200">
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Support</h4>
+              <ul className="space-y-1.5 sm:space-y-2 text-teddy-200 text-sm sm:text-base">
                 <li>
                   <a href="#" className="hover:text-primary-foreground">
                     Contact Us
@@ -351,8 +351,8 @@ const Index = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Connect</h4>
-              <ul className="space-y-2 text-teddy-200">
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Connect</h4>
+              <ul className="space-y-1.5 sm:space-y-2 text-teddy-200 text-sm sm:text-base">
                 <li>
                   <a href="#" className="hover:text-primary-foreground">
                     Facebook
@@ -376,7 +376,7 @@ const Index = () => {
               </ul>
             </div>
           </div>
-          <div className="border-t border-teddy-700 mt-8 pt-8 text-center text-teddy-200">
+          <div className="border-t border-teddy-700 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-teddy-200 text-xs sm:text-sm">
             <p>
               &copy; 2024 TeddyLove. All rights reserved. Made with ❤️ for teddy
               bear lovers.
