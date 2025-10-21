@@ -156,7 +156,7 @@ const AdminProducts = () => {
       console.log("Token:", token ? "Present" : "Missing");
 
       const response = await fetch(
-        "http://localhost:8081/api/upload/product-image",
+        "https://backend-production-8f5c.up.railway.app/api/upload/product-image",
         {
           method: "POST",
           headers: {
