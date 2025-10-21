@@ -1,15 +1,23 @@
 import { Product, Category, UIProduct } from '@/types/product';
 
+const API_BASE_URL = 'https://backend-production-8f5c.up.railway.app';
+
 /**
  * Convert backend Product to frontend UIProduct format
  */
 export function convertProductToUI(backendProduct: Product): UIProduct {
+  // If imageUrl starts with /uploads, prepend the backend URL
+  let imageUrl = backendProduct.imageUrl || '/placeholder.svg';
+  if (imageUrl.startsWith('/uploads')) {
+    imageUrl = `${API_BASE_URL}${imageUrl}`;
+  }
+  
   return {
     id: backendProduct.productId.toString(),
     name: backendProduct.name,
     description: backendProduct.description,
     price: backendProduct.price,
-    image: backendProduct.imageUrl || '/placeholder.svg',
+    image: imageUrl,
     category: backendProduct.categoryName,
     size: 'Medium', // Default size since backend doesn't have this field
     stock: backendProduct.stockQuantity,
