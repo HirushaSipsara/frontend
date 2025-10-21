@@ -252,7 +252,9 @@ const AdminProducts = () => {
           });
           return;
         }
-        imageUrl = `http://localhost:8081${uploadedUrl}`;
+        // Use the relative URL returned by the backend (e.g., /uploads/products/uuid.jpg)
+        // The frontend will automatically prepend the backend URL when displaying
+        imageUrl = uploadedUrl;
       }
 
       const productData = {
