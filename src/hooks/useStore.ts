@@ -255,14 +255,17 @@ export const useStore = create<StoreState>()(
       addToCart: async (product, quantity = 1, personalizationDetails = null, extraPrice = 0) => {
         const { currentUser } = get();
         console.log('🔄 addToCart called:', { productId: product.id, quantity, currentUser, personalizationDetails, extraPrice });
-        console.log('🔄 Current user status:', currentUser ? 'Logged in as ' + currentUser : 'Not logged in');
+        console.log('🔄 Current user status:', currentUser ? 'Logged in as ' + currentUser.username : 'Not logged in');
         console.log('🔄 Auth token:', localStorage.getItem('auth_token') ? 'Present' : 'Missing');
         
         // Require authentication for cart operations
         if (!currentUser) {
           console.error('❌ Cannot add to cart - user not authenticated');
+          alert('You must be logged in to add items to cart. Please log in first.');
           throw new Error('You must be logged in to add items to cart. Please log in first.');
         }
+        
+        console.log('✅ User authenticated, proceeding to add to cart');
         
         // Ensure personalization details are in the new format
         let normalizedPersonalizationDetails = personalizationDetails;
@@ -325,8 +328,10 @@ export const useStore = create<StoreState>()(
             }
           });
           console.log('✅ Item added to cart successfully');
+          alert(`✅ ${product.name} added to cart!`);
         } catch (error) {
-          console.error('Failed to add to cart:', error);
+          console.error('❌ Failed to add to cart:', error);
+          alert(`❌ Failed to add to cart: ${error instanceof Error ? error.message : 'Unknown error'}`);
           throw error;
         }
       },
