@@ -255,9 +255,12 @@ export const useStore = create<StoreState>()(
       addToCart: async (product, quantity = 1, personalizationDetails = null, extraPrice = 0) => {
         const { currentUser } = get();
         console.log('🔄 addToCart called:', { productId: product.id, quantity, currentUser, personalizationDetails, extraPrice });
+        console.log('🔄 Current user status:', currentUser ? 'Logged in as ' + currentUser : 'Not logged in');
+        console.log('🔄 Auth token:', localStorage.getItem('auth_token') ? 'Present' : 'Missing');
         
         // Require authentication for cart operations
         if (!currentUser) {
+          console.error('❌ Cannot add to cart - user not authenticated');
           throw new Error('You must be logged in to add items to cart. Please log in first.');
         }
         
@@ -280,16 +283,20 @@ export const useStore = create<StoreState>()(
         };
         
         try {
+          console.log('🔄 Calling backend API to add to cart...');
           // Use the new API method if personalization details are provided
           if (normalizedPersonalizationDetails && Object.keys(normalizedPersonalizationDetails).length > 0) {
+            console.log('🔄 Using addToCartWithPersonalization');
             await apiClient.addToCartWithPersonalization(
               parseInt(product.id), 
               quantity, 
               normalizedPersonalizationDetails
             );
           } else {
+            console.log('🔄 Using addToCart with productId:', parseInt(product.id), 'quantity:', quantity);
             await apiClient.addToCart(parseInt(product.id), quantity, normalizedPersonalizationDetails);
           }
+          console.log('✅ Backend API call successful');
             
           // Instead of syncing, just add the item to local cart
           // This prevents fetching old cart items
