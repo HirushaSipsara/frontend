@@ -1,12 +1,12 @@
-import { ArrowRight, Star } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import heroImage from '@/assets/hero-teddy-store.jpg';
+import { ArrowRight, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import heroImage from "@/assets/hero-teddy-store.jpg";
 
 export function HeroSection() {
   return (
     <section className="relative min-h-[60vh] sm:min-h-[70vh] lg:min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-teddy-50 via-pink-50 to-teddy-100">
       <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent z-10" />
-      
+
       <div className="container relative z-20 grid lg:grid-cols-2 gap-8 sm:gap-12 items-center max-w-screen-xl px-4 py-8 sm:py-12">
         {/* Text Content */}
         <div className="space-y-6 sm:space-y-8">
@@ -14,12 +14,17 @@ export function HeroSection() {
             <div className="flex items-center space-x-2">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-3 w-3 sm:h-4 sm:w-4 fill-yellow-400 text-yellow-400" />
+                  <Star
+                    key={i}
+                    className="h-3 w-3 sm:h-4 sm:w-4 fill-yellow-400 text-yellow-400"
+                  />
                 ))}
               </div>
-              <span className="text-xs sm:text-sm text-muted-foreground">Loved by 10,000+ customers</span>
+              <span className="text-xs sm:text-sm text-muted-foreground">
+                Loved by 10,000+ customers
+              </span>
             </div>
-            
+
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
               <span className="bg-gradient-to-r from-teddy-700 to-pink-600 bg-clip-text text-transparent">
                 Cuddle & Love
@@ -27,9 +32,11 @@ export function HeroSection() {
               <br />
               <span className="text-foreground">Every Day</span>
             </h1>
-            
+
             <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-md">
-              Discover our collection of premium teddy bears and plush toys. Perfect companions for every age, crafted with love and designed to last a lifetime.
+              Discover our collection of premium teddy bears and plush toys.
+              Perfect companions for every age, crafted with love and designed
+              to last a lifetime.
             </p>
           </div>
 
@@ -45,16 +52,28 @@ export function HeroSection() {
 
           <div className="grid grid-cols-3 gap-4 sm:gap-6 pt-6 sm:pt-8">
             <div className="text-center">
-              <div className="text-xl sm:text-2xl font-bold text-teddy-700">500+</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Happy Bears</div>
+              <div className="text-xl sm:text-2xl font-bold text-teddy-700">
+                500+
+              </div>
+              <div className="text-xs sm:text-sm text-muted-foreground">
+                Happy Bears
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-xl sm:text-2xl font-bold text-teddy-700">10k+</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Customers</div>
+              <div className="text-xl sm:text-2xl font-bold text-teddy-700">
+                10k+
+              </div>
+              <div className="text-xs sm:text-sm text-muted-foreground">
+                Customers
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-xl sm:text-2xl font-bold text-teddy-700">99%</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Satisfaction</div>
+              <div className="text-xl sm:text-2xl font-bold text-teddy-700">
+                99%
+              </div>
+              <div className="text-xs sm:text-sm text-muted-foreground">
+                Satisfaction
+              </div>
             </div>
           </div>
         </div>
@@ -70,7 +89,7 @@ export function HeroSection() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-teddy-900/20 to-transparent" />
           </div>
-          
+
           {/* Floating Elements - Hidden on very small screens */}
           <div className="hidden sm:block absolute -top-3 sm:-top-4 -right-3 sm:-right-4 bg-pink-500 text-primary-foreground rounded-full p-2 sm:p-3 shadow-lg animate-bounce">
             <span className="text-xl sm:text-2xl">🧸</span>

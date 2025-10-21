@@ -148,7 +148,9 @@ export function AdminDashboard() {
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
               Admin Dashboard
             </h1>
-            <p className="text-muted-foreground text-sm sm:text-base">Manage your TeddyLove store</p>
+            <p className="text-muted-foreground text-sm sm:text-base">
+              Manage your TeddyLove store
+            </p>
           </div>
           <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             <Button asChild className="flex-1 sm:flex-none">

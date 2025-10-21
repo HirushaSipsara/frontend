@@ -136,7 +136,11 @@ const Profile = () => {
 
       <div className="container max-w-6xl mx-auto px-4 py-6 sm:py-8">
         {/* Back Button */}
-        <Button variant="ghost" onClick={() => navigate("/")} className="mb-4 sm:mb-6 -ml-2 sm:-ml-0">
+        <Button
+          variant="ghost"
+          onClick={() => navigate("/")}
+          className="mb-4 sm:mb-6 -ml-2 sm:-ml-0"
+        >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Home
         </Button>
@@ -290,10 +294,15 @@ const Profile = () => {
                                 <span className="font-semibold text-sm sm:text-base">
                                   Order #{order.orderId}
                                 </span>
-                                <Badge variant={getStatusVariant(order.status)} className="text-xs">
+                                <Badge
+                                  variant={getStatusVariant(order.status)}
+                                  className="text-xs"
+                                >
                                   <span className="flex items-center gap-1">
                                     {getStatusIcon(order.status)}
-                                    <span className="hidden sm:inline">{order.status}</span>
+                                    <span className="hidden sm:inline">
+                                      {order.status}
+                                    </span>
                                   </span>
                                 </Badge>
                               </div>

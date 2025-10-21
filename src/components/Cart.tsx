@@ -72,7 +72,9 @@ export function Cart({ isOpen, onClose }: CartProps) {
                         </div>
                         <div className="flex-1 space-y-2 min-w-0">
                           <div className="flex items-start justify-between gap-2">
-                            <h4 className="font-medium text-sm truncate">{item.name}</h4>
+                            <h4 className="font-medium text-sm truncate">
+                              {item.name}
+                            </h4>
                             <Button
                               variant="ghost"
                               size="icon"

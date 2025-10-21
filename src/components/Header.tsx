@@ -66,7 +66,12 @@ export function Header({ onCartClick, onSearchClick }: HeaderProps) {
 
         {/* Actions */}
         <div className="flex items-center space-x-1 sm:space-x-2">
-          <Button variant="ghost" size="icon" onClick={onSearchClick} className="hidden sm:flex">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onSearchClick}
+            className="hidden sm:flex"
+          >
             <Search className="h-4 w-4" />
           </Button>
 
@@ -151,13 +156,17 @@ export function Header({ onCartClick, onSearchClick }: HeaderProps) {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="md:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            {isMobileMenuOpen ? (
+              <X className="h-4 w-4" />
+            ) : (
+              <Menu className="h-4 w-4" />
+            )}
           </Button>
         </div>
       </div>

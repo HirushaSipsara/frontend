@@ -238,7 +238,10 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
             <Badge variant="outline" className="text-xs px-1.5 py-0.5">
               {productSize}
             </Badge>
-            <Badge variant="outline" className="text-xs px-1.5 py-0.5 truncate max-w-[100px]">
+            <Badge
+              variant="outline"
+              className="text-xs px-1.5 py-0.5 truncate max-w-[100px]"
+            >
               {productCategory}
             </Badge>
           </div>
@@ -274,7 +277,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
             className="max-w-[95vw] sm:max-w-lg max-h-[90vh] overflow-y-auto"
           >
             <DialogHeader>
-              <DialogTitle className="text-base sm:text-lg">Personalize {productName}</DialogTitle>
+              <DialogTitle className="text-base sm:text-lg">
+                Personalize {productName}
+              </DialogTitle>
             </DialogHeader>
             <div className="grid gap-3 sm:gap-4 py-2">
               {/* Example: fetched options preview (optional) */}
@@ -293,7 +298,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
               ) : null}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Occasion</label>
+                  <label className="text-xs sm:text-sm font-medium">
+                    Occasion
+                  </label>
                   <Select
                     onValueChange={(v) =>
                       setDetails((d: PersonalizationDetails) => ({
@@ -320,7 +327,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Flowers</label>
+                  <label className="text-xs sm:text-sm font-medium">
+                    Flowers
+                  </label>
                   <Select
                     onValueChange={(v) =>
                       setDetails((d: PersonalizationDetails) => ({
@@ -342,7 +351,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Flowers color</label>
+                  <label className="text-xs sm:text-sm font-medium">
+                    Flowers color
+                  </label>
                   <Select
                     onValueChange={(v) =>
                       setDetails((d: PersonalizationDetails) => ({
@@ -364,7 +375,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Wrapping Paper</label>
+                  <label className="text-xs sm:text-sm font-medium">
+                    Wrapping Paper
+                  </label>
                   <Select
                     onValueChange={(v) =>
                       setDetails((d: PersonalizationDetails) => ({
@@ -385,7 +398,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Include Teddy</label>
+                  <label className="text-xs sm:text-sm font-medium">
+                    Include Teddy
+                  </label>
                   <Select
                     onValueChange={(v) =>
                       setDetails((d: PersonalizationDetails) => ({
@@ -404,7 +419,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Teddy Type</label>
+                  <label className="text-xs sm:text-sm font-medium">
+                    Teddy Type
+                  </label>
                   <Select
                     onValueChange={(v) =>
                       setDetails((d: PersonalizationDetails) => ({
@@ -429,7 +446,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Teddy Color</label>
+                  <label className="text-xs sm:text-sm font-medium">
+                    Teddy Color
+                  </label>
                   <Select
                     onValueChange={(v) =>
                       setDetails((d: PersonalizationDetails) => ({
@@ -452,7 +471,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Felt Design (Teddy)</label>
+                  <label className="text-xs sm:text-sm font-medium">
+                    Felt Design (Teddy)
+                  </label>
                   <Input
                     placeholder="Describe felt design"
                     className="text-sm"
@@ -467,7 +488,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Soft toys</label>
+                  <label className="text-xs sm:text-sm font-medium">
+                    Soft toys
+                  </label>
                   <Select
                     onValueChange={(v) =>
                       setDetails((d: PersonalizationDetails) => ({
@@ -486,7 +509,9 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Quantity</label>
+                  <label className="text-xs sm:text-sm font-medium">
+                    Quantity
+                  </label>
                   <Input
                     type="number"
                     min={1}
@@ -499,10 +524,17 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
                 </div>
               </div>
               <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-2">
-                <Button variant="outline" onClick={() => setOpen(false)} className="w-full sm:w-auto">
+                <Button
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+                  className="w-full sm:w-auto"
+                >
                   Cancel
                 </Button>
-                <Button onClick={handlePersonalizedAdd} className="w-full sm:w-auto">
+                <Button
+                  onClick={handlePersonalizedAdd}
+                  className="w-full sm:w-auto"
+                >
                   Add Personalized
                 </Button>
               </div>

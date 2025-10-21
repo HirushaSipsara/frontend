@@ -249,7 +249,9 @@ const Index = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
               <div className="space-y-3 sm:space-y-4">
                 <div className="text-3xl sm:text-4xl">🧸</div>
-                <h3 className="text-lg sm:text-xl font-semibold">Premium Quality</h3>
+                <h3 className="text-lg sm:text-xl font-semibold">
+                  Premium Quality
+                </h3>
                 <p className="text-sm sm:text-base text-muted-foreground px-4 sm:px-0">
                   Each teddy bear is crafted with the finest materials and
                   attention to detail
@@ -257,7 +259,9 @@ const Index = () => {
               </div>
               <div className="space-y-3 sm:space-y-4">
                 <div className="text-3xl sm:text-4xl">❤️</div>
-                <h3 className="text-lg sm:text-xl font-semibold">Made with Love</h3>
+                <h3 className="text-lg sm:text-xl font-semibold">
+                  Made with Love
+                </h3>
                 <p className="text-sm sm:text-base text-muted-foreground px-4 sm:px-0">
                   Every bear is designed to bring joy and comfort to people of
                   all ages
@@ -265,7 +269,9 @@ const Index = () => {
               </div>
               <div className="space-y-3 sm:space-y-4">
                 <div className="text-3xl sm:text-4xl">🚚</div>
-                <h3 className="text-lg sm:text-xl font-semibold">Fast Delivery</h3>
+                <h3 className="text-lg sm:text-xl font-semibold">
+                  Fast Delivery
+                </h3>
                 <p className="text-sm sm:text-base text-muted-foreground px-4 sm:px-0">
                   Quick and safe delivery to bring your new friend home as soon
                   as possible
@@ -295,7 +301,9 @@ const Index = () => {
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Shop</h4>
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">
+                Shop
+              </h4>
               <ul className="space-y-1.5 sm:space-y-2 text-teddy-200 text-sm sm:text-base">
                 <li>
                   <Link
@@ -326,7 +334,9 @@ const Index = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Support</h4>
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">
+                Support
+              </h4>
               <ul className="space-y-1.5 sm:space-y-2 text-teddy-200 text-sm sm:text-base">
                 <li>
                   <a href="#" className="hover:text-primary-foreground">
@@ -351,7 +361,9 @@ const Index = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Connect</h4>
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">
+                Connect
+              </h4>
               <ul className="space-y-1.5 sm:space-y-2 text-teddy-200 text-sm sm:text-base">
                 <li>
                   <a href="#" className="hover:text-primary-foreground">
