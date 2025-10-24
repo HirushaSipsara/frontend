@@ -49,6 +49,70 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [expandedOrderId, setExpandedOrderId] = useState<number | null>(null);
 
+  // Helper function to safely get personalization details
+  const getPersonalizationDetails = (details: Record<string, unknown>) => {
+    const result: string[] = [];
+
+    if (details.occasion) {
+      result.push(`• Occasion: ${String(details.occasion)}`);
+    }
+
+    if (
+      details.teddy &&
+      typeof details.teddy === "object" &&
+      details.teddy !== null
+    ) {
+      const teddy = details.teddy as Record<string, unknown>;
+      if (teddy.included) {
+        const type = teddy.type ? String(teddy.type) : "Bear";
+        const color = teddy.color ? ` (${String(teddy.color)})` : "";
+        result.push(`• Teddy: ${type}${color}`);
+      }
+    }
+
+    if (
+      details.flowers &&
+      typeof details.flowers === "object" &&
+      details.flowers !== null
+    ) {
+      const flowers = details.flowers as Record<string, unknown>;
+      if (flowers.included) {
+        const type = flowers.type ? String(flowers.type) : "Roses";
+        const color = flowers.color ? ` (${String(flowers.color)})` : "";
+        result.push(`• Flowers: ${type}${color}`);
+      }
+    }
+
+    if (
+      details.giftBox &&
+      typeof details.giftBox === "object" &&
+      details.giftBox !== null
+    ) {
+      const giftBox = details.giftBox as Record<string, unknown>;
+      if (giftBox.included) {
+        const type = giftBox.type ? String(giftBox.type) : "Standard";
+        const color = giftBox.color ? ` (${String(giftBox.color)})` : "";
+        result.push(`• Gift Box: ${type}${color}`);
+      }
+    }
+
+    if (details.message) {
+      result.push(`• Message: "${String(details.message)}"`);
+    }
+
+    if (details.recipientName) {
+      result.push(`• Recipient: ${String(details.recipientName)}`);
+    }
+
+    if (details.specialInstructions) {
+      result.push(
+        `• Special Instructions: ${String(details.specialInstructions)}`
+      );
+    }
+
+    return result;
+  };
+
   const loadOrders = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -357,28 +421,51 @@ const Profile = () => {
                                 {order.orderItems?.map((item) => (
                                   <div
                                     key={item.itemId}
-                                    className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 p-2 sm:p-3 bg-muted/30 rounded"
+                                    className="bg-muted/30 rounded p-3 space-y-2"
                                   >
-                                    <div className="flex-1 min-w-0">
-                                      <p className="font-medium text-sm sm:text-base truncate">
-                                        {item.productName}
+                                    <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+                                      <div className="flex-1 min-w-0">
+                                        <p className="font-medium text-sm sm:text-base truncate">
+                                          {item.productName}
+                                        </p>
+                                        <p className="text-xs sm:text-sm text-muted-foreground">
+                                          Quantity: {item.quantity} × Rs
+                                          {item.price.toFixed(2)}
+                                        </p>
+                                        {item.personalizationDetails &&
+                                          Object.keys(
+                                            item.personalizationDetails
+                                          ).length > 0 && (
+                                            <Badge
+                                              variant="outline"
+                                              className="mt-1 text-xs"
+                                            >
+                                              Personalized
+                                            </Badge>
+                                          )}
+                                      </div>
+                                      <p className="font-semibold text-sm sm:text-base self-end sm:self-center">
+                                        Rs {item.itemTotal.toFixed(2)}
                                       </p>
-                                      <p className="text-xs sm:text-sm text-muted-foreground">
-                                        Quantity: {item.quantity} × Rs
-                                        {item.price.toFixed(2)}
-                                      </p>
-                                      {item.personalizationDetails && (
-                                        <Badge
-                                          variant="outline"
-                                          className="mt-1 text-xs"
-                                        >
-                                          Personalized
-                                        </Badge>
-                                      )}
                                     </div>
-                                    <p className="font-semibold text-sm sm:text-base self-end sm:self-center">
-                                      Rs {item.itemTotal.toFixed(2)}
-                                    </p>
+
+                                    {/* Personalization Details */}
+                                    {item.personalizationDetails &&
+                                      Object.keys(item.personalizationDetails)
+                                        .length > 0 && (
+                                        <div className="bg-background/50 rounded-md p-2 space-y-1">
+                                          <div className="text-xs font-medium text-muted-foreground">
+                                            Personalization Details:
+                                          </div>
+                                          <div className="text-xs space-y-1">
+                                            {getPersonalizationDetails(
+                                              item.personalizationDetails
+                                            ).map((detail, index) => (
+                                              <div key={index}>{detail}</div>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      )}
                                   </div>
                                 ))}
                               </div>

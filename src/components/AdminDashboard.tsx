@@ -57,6 +57,70 @@ export function AdminDashboard() {
   const [expandedOrderId, setExpandedOrderId] = useState<number | null>(null);
   const navigate = useNavigate();
 
+  // Helper function to safely get personalization details
+  const getPersonalizationDetails = (details: Record<string, unknown>) => {
+    const result: string[] = [];
+
+    if (details.occasion) {
+      result.push(`• Occasion: ${String(details.occasion)}`);
+    }
+
+    if (
+      details.teddy &&
+      typeof details.teddy === "object" &&
+      details.teddy !== null
+    ) {
+      const teddy = details.teddy as Record<string, unknown>;
+      if (teddy.included) {
+        const type = teddy.type ? String(teddy.type) : "Bear";
+        const color = teddy.color ? ` (${String(teddy.color)})` : "";
+        result.push(`• Teddy: ${type}${color}`);
+      }
+    }
+
+    if (
+      details.flowers &&
+      typeof details.flowers === "object" &&
+      details.flowers !== null
+    ) {
+      const flowers = details.flowers as Record<string, unknown>;
+      if (flowers.included) {
+        const type = flowers.type ? String(flowers.type) : "Roses";
+        const color = flowers.color ? ` (${String(flowers.color)})` : "";
+        result.push(`• Flowers: ${type}${color}`);
+      }
+    }
+
+    if (
+      details.giftBox &&
+      typeof details.giftBox === "object" &&
+      details.giftBox !== null
+    ) {
+      const giftBox = details.giftBox as Record<string, unknown>;
+      if (giftBox.included) {
+        const type = giftBox.type ? String(giftBox.type) : "Standard";
+        const color = giftBox.color ? ` (${String(giftBox.color)})` : "";
+        result.push(`• Gift Box: ${type}${color}`);
+      }
+    }
+
+    if (details.message) {
+      result.push(`• Message: "${String(details.message)}"`);
+    }
+
+    if (details.recipientName) {
+      result.push(`• Recipient: ${String(details.recipientName)}`);
+    }
+
+    if (details.specialInstructions) {
+      result.push(
+        `• Special Instructions: ${String(details.specialInstructions)}`
+      );
+    }
+
+    return result;
+  };
+
   // Load data on component mount
   useEffect(() => {
     const loadData = async () => {
@@ -536,28 +600,44 @@ export function AdminDashboard() {
                                       order.orderItems.map((item: any) => (
                                         <div
                                           key={item.itemId}
-                                          className="flex items-center justify-between text-sm border rounded-md p-2"
+                                          className="border rounded-md p-3 space-y-2"
                                         >
-                                          <div className="mr-4">
+                                          <div className="flex items-center justify-between">
                                             <div className="font-medium">
                                               {item.productName}
                                             </div>
-                                            {item.personalizationDetails && (
-                                              <div className="text-xs text-muted-foreground">
-                                                Personalized
+                                            <div className="flex items-center gap-4">
+                                              <span>x{item.quantity}</span>
+                                              <span>
+                                                $
+                                                {(
+                                                  item.itemTotal ||
+                                                  item.price * item.quantity
+                                                ).toFixed(2)}
+                                              </span>
+                                            </div>
+                                          </div>
+
+                                          {/* Personalization Details */}
+                                          {item.personalizationDetails &&
+                                            Object.keys(
+                                              item.personalizationDetails
+                                            ).length > 0 && (
+                                              <div className="bg-muted/50 rounded-md p-2 space-y-1">
+                                                <div className="text-xs font-medium text-muted-foreground">
+                                                  Personalization Details:
+                                                </div>
+                                                <div className="text-xs space-y-1">
+                                                  {getPersonalizationDetails(
+                                                    item.personalizationDetails
+                                                  ).map((detail, index) => (
+                                                    <div key={index}>
+                                                      {detail}
+                                                    </div>
+                                                  ))}
+                                                </div>
                                               </div>
                                             )}
-                                          </div>
-                                          <div className="flex items-center gap-4">
-                                            <span>x{item.quantity}</span>
-                                            <span>
-                                              $
-                                              {(
-                                                item.itemTotal ||
-                                                item.price * item.quantity
-                                              ).toFixed(2)}
-                                            </span>
-                                          </div>
                                         </div>
                                       ))
                                     ) : (
