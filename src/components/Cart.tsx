@@ -80,9 +80,15 @@ export function Cart({ isOpen, onClose }: CartProps) {
                               size="icon"
                               className="h-6 w-6"
                               onClick={() => {
-                                console.log("🗑️ Removing item from cart:", item);
+                                console.log(
+                                  "🗑️ Removing item from cart:",
+                                  item
+                                );
                                 console.log("🗑️ Item ID:", item.id);
-                                console.log("🗑️ Item backendId:", item.backendId);
+                                console.log(
+                                  "🗑️ Item backendId:",
+                                  item.backendId
+                                );
                                 removeFromCart(item.id);
                               }}
                             >

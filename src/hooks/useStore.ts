@@ -282,7 +282,12 @@ export const useStore = create<StoreState>()(
           quantity,
           personalizationDetails: normalizedPersonalizationDetails,
           extraPrice,
-          totalPrice: (product.price + extraPrice) * quantity
+          totalPrice: (product.price + extraPrice) * quantity,
+          // Ensure all required fields are present
+          description: product.description || '',
+          stock: product.stock || 999,
+          rating: product.rating || 0,
+          reviews: product.reviews || 0
         };
         
         try {
@@ -341,45 +346,35 @@ export const useStore = create<StoreState>()(
         console.log('🔄 Current cart items:', cart);
         console.log('🔄 Looking for item with ID:', productId);
         
+        // Find the cart item to get its backend ID
+        const cartItem = get().cart.find(item => item.id === productId);
+        console.log('🔄 Found cart item:', cartItem);
+        
         if (currentUser) {
           try {
-            // Find the cart item to get its backend ID
-            const cartItem = get().cart.find(item => item.id === productId);
-            console.log('🔄 Found cart item:', cartItem);
-            
             if (cartItem && 'backendId' in cartItem && cartItem.backendId) {
               console.log('🔄 Using backend ID for removal:', cartItem.backendId);
               await apiClient.removeFromCart((cartItem as any).backendId);
-              // Remove from local cart instead of syncing
-              set((state) => ({
-                cart: state.cart.filter(item => item.id !== productId)
-              }));
-              console.log('✅ Item removed from local cart for authenticated user');
+              console.log('✅ Backend removal successful');
             } else {
-              console.log('🔄 No backendId found, removing locally');
-              // If no backendId, just remove locally
-              set((state) => {
-                const newCart = state.cart.filter(item => item.id !== productId);
-                console.log('🔄 Cart after local removal:', newCart);
-                return { cart: newCart };
-              });
+              console.log('🔄 No backendId found, skipping backend removal');
             }
           } catch (error) {
-            console.error('Failed to remove from cart:', error);
-            // Fallback to local removal
-            set((state) => ({
-              cart: state.cart.filter(item => item.id !== productId)
-            }));
+            console.error('Failed to remove from backend:', error);
+            console.log('🔄 Continuing with local removal despite backend error');
           }
-        } else {
-          console.log('🔄 User not authenticated, removing locally');
-          // For unauthenticated users, just remove locally
-          set((state) => {
-            const newCart = state.cart.filter(item => item.id !== productId);
-            console.log('🔄 Cart after local removal (unauthenticated):', newCart);
-            return { cart: newCart };
-          });
         }
+        
+        // Always remove locally regardless of backend status
+        console.log('🔄 Removing item locally...');
+        set((state) => {
+          const newCart = state.cart.filter(item => item.id !== productId);
+          console.log('🔄 Cart before removal:', state.cart.length, 'items');
+          console.log('🔄 Cart after removal:', newCart.length, 'items');
+          console.log('🔄 Removed item ID:', productId);
+          return { cart: newCart };
+        });
+        console.log('✅ Item removed from cart successfully');
       },
       updateCartQuantity: async (productId, quantity) => {
         const { currentUser } = get();
@@ -558,6 +553,7 @@ export const useStore = create<StoreState>()(
           const frontendCart: CartItem[] = backendCart.map(item => ({
             id: item.productId.toString(),
             name: item.productName,
+            description: item.productName, // Use product name as description
             price: item.productPrice,
             quantity: item.quantity,
             image: item.imageUrl || '/placeholder.svg',
@@ -595,6 +591,7 @@ export const useStore = create<StoreState>()(
           const frontendCart: CartItem[] = backendCart.map(item => ({
             id: item.productId.toString(),
             name: item.productName,
+            description: item.productName, // Use product name as description
             price: item.productPrice,
             quantity: item.quantity,
             image: item.imageUrl || '/placeholder.svg',
