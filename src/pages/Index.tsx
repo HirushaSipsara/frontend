@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { ProductGrid } from "@/components/ProductGrid";
@@ -15,6 +15,7 @@ import { Search, ArrowRight, Star } from "lucide-react";
 const Index = () => {
   const { currentUser, products, categories, fetchProducts, fetchCategories } =
     useStore();
+  const navigate = useNavigate();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +40,11 @@ const Index = () => {
   // Get featured products (first 6 products)
   const featuredProducts = products.slice(0, 6);
   const popularCategories = categories.slice(0, 6);
+
+  // Handle product card click
+  const handleProductClick = () => {
+    navigate("/products");
+  };
 
   //Show different views based on user role
   if (currentUser === "admin") {
@@ -94,6 +100,7 @@ const Index = () => {
                   <Card
                     key={product.id}
                     className="group cursor-pointer overflow-hidden border-border transition-all duration-300 hover:shadow-lg hover:shadow-teddy-300/20 hover:-translate-y-1"
+                    onClick={handleProductClick}
                   >
                     <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-teddy-50 to-pink-50">
                       <img
@@ -198,6 +205,7 @@ const Index = () => {
                   <Card
                     key={category.id}
                     className="group cursor-pointer hover:shadow-lg transition-all duration-300"
+                    onClick={handleProductClick}
                   >
                     <CardContent className="p-6 text-center space-y-2">
                       <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">

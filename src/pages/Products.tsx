@@ -7,6 +7,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { PriceFilter } from "@/components/PriceFilter";
 import { SortSelect } from "@/components/SortSelect";
 import { Pagination } from "@/components/Pagination";
+import { Cart } from "@/components/Cart";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -36,6 +37,10 @@ const Products = () => {
   const [sortBy, setSortBy] = useState<"name" | "price" | "newest">("name");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
+
+  // Cart state
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -173,7 +178,10 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header
+        onCartClick={() => setIsCartOpen(true)}
+        onSearchClick={() => setIsSearchOpen(true)}
+      />
 
       <div className="container max-w-screen-xl mx-auto px-4 py-6 sm:py-8">
         {/* Page Header */}
@@ -390,6 +398,8 @@ const Products = () => {
           </div>
         </div>
       </div>
+
+      <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </div>
   );
 };
