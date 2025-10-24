@@ -63,7 +63,18 @@ export interface OrderResponse {
   totalPrice: number;
   status: string;
   orderDate: string;
-  orderItems: unknown[];
+  deliveryAddress: string;
+  contactNumber: string;
+  orderItems: OrderItem[];
+}
+
+export interface OrderItem {
+  itemId: number;
+  productName: string;
+  quantity: number;
+  price: number;
+  itemTotal: number;
+  personalizationDetails?: Record<string, unknown>;
 }
 
 // Dashboard interfaces

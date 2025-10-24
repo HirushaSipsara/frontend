@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,7 +27,7 @@ interface OrderItem {
   quantity: number;
   price: number;
   itemTotal: number;
-  personalizationDetails?: any;
+  personalizationDetails?: Record<string, unknown>;
 }
 
 interface Order {
@@ -49,47 +49,57 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [expandedOrderId, setExpandedOrderId] = useState<number | null>(null);
 
-  useEffect(() => {
-    // Redirect if not logged in
-    if (!currentUser || currentUser !== "customer") {
-      navigate("/auth");
-      return;
-    }
-
-    loadOrders();
-  }, [currentUser, navigate]);
-
-  const loadOrders = async () => {
+  const loadOrders = useCallback(async () => {
     try {
       setIsLoading(true);
-      const token = localStorage.getItem("auth_token");
+      console.log("🔄 Loading orders using API client...");
 
-      const response = await fetch(
-        "http://localhost:8081/api/orders/my-orders",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const data = await apiClient.getMyOrders();
+      console.log("✅ Orders loaded successfully:", data);
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch orders");
+      // Handle case where API returns null, undefined, or non-array
+      if (Array.isArray(data)) {
+        setOrders(data);
+      } else {
+        console.log("⚠️ API returned non-array data, setting empty array");
+        setOrders([]);
       }
-
-      const data = await response.json();
-      setOrders(data);
     } catch (error) {
-      console.error("Failed to load orders:", error);
+      console.error("❌ Failed to load orders:", error);
       toast({
         title: "Error",
-        description: "Failed to load order history.",
+        description: `Failed to load order history: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    // Redirect if not logged in
+    if (!currentUser || currentUser !== "customer") {
+      console.log(
+        "🔄 User not authenticated, redirecting to auth:",
+        currentUser
+      );
+      navigate("/auth");
+      return;
+    }
+
+    // Check if auth token exists
+    const token = localStorage.getItem("auth_token");
+    if (!token) {
+      console.log("🔄 No auth token found, redirecting to auth");
+      navigate("/auth");
+      return;
+    }
+
+    console.log("🔄 User authenticated, loading orders for:", currentUser);
+    loadOrders();
+  }, [currentUser, navigate, loadOrders]);
 
   const getStatusIcon = (status: string) => {
     switch (status.toLowerCase()) {
@@ -132,7 +142,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header onCartClick={() => {}} onSearchClick={() => {}} />
 
       <div className="container max-w-6xl mx-auto px-4 py-6 sm:py-8">
         {/* Back Button */}
