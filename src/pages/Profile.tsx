@@ -53,10 +53,14 @@ const Profile = () => {
   const getPersonalizationDetails = (details: Record<string, unknown>) => {
     const result: string[] = [];
 
+    // Debug: Log the actual structure
+    console.log("🔍 Personalization details structure:", details);
+
     if (details.occasion) {
       result.push(`• Occasion: ${String(details.occasion)}`);
     }
 
+    // Check for teddy bear details (new structure)
     if (
       details.teddy &&
       typeof details.teddy === "object" &&
@@ -70,44 +74,56 @@ const Profile = () => {
       }
     }
 
+    // Check for flower details (new structure)
     if (
       details.flowers &&
       typeof details.flowers === "object" &&
       details.flowers !== null
     ) {
       const flowers = details.flowers as Record<string, unknown>;
-      if (flowers.included) {
-        const type = flowers.type ? String(flowers.type) : "Roses";
+      if (flowers.count && Number(flowers.count) > 0) {
+        const count = String(flowers.count);
         const color = flowers.color ? ` (${String(flowers.color)})` : "";
-        result.push(`• Flowers: ${type}${color}`);
+        result.push(`• Flowers: ${count} flowers${color}`);
       }
     }
 
-    if (
-      details.giftBox &&
-      typeof details.giftBox === "object" &&
-      details.giftBox !== null
-    ) {
-      const giftBox = details.giftBox as Record<string, unknown>;
-      if (giftBox.included) {
-        const type = giftBox.type ? String(giftBox.type) : "Standard";
-        const color = giftBox.color ? ` (${String(giftBox.color)})` : "";
-        result.push(`• Gift Box: ${type}${color}`);
-      }
+    // Check for wrapping paper
+    if (details.wrapping_paper) {
+      result.push(`• Wrapping Paper: ${String(details.wrapping_paper)}`);
     }
 
-    if (details.message) {
-      result.push(`• Message: "${String(details.message)}"`);
+    // Check for soft toys
+    if (details.soft_toys) {
+      result.push(`• Soft Toys: ${String(details.soft_toys)}`);
     }
 
-    if (details.recipientName) {
-      result.push(`• Recipient: ${String(details.recipientName)}`);
+    // Check for felt design
+    if (details.felt_design) {
+      result.push(`• Felt Design: ${String(details.felt_design)}`);
     }
 
-    if (details.specialInstructions) {
-      result.push(
-        `• Special Instructions: ${String(details.specialInstructions)}`
-      );
+    // Check for custom message
+    if (details.custom_message) {
+      result.push(`• Message: "${String(details.custom_message)}"`);
+    }
+
+    // Check for extra cost
+    if (details.extra_cost && Number(details.extra_cost) > 0) {
+      result.push(`• Extra Cost: Rs ${Number(details.extra_cost).toFixed(2)}`);
+    }
+
+    // Legacy field support
+    if (details.wrappingPaper) {
+      result.push(`• Wrapping Paper: ${String(details.wrappingPaper)}`);
+    }
+
+    if (details.softToys) {
+      result.push(`• Soft Toys: ${String(details.softToys)}`);
+    }
+
+    if (details.massage) {
+      result.push(`• Message: "${String(details.massage)}"`);
     }
 
     return result;

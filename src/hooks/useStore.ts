@@ -336,8 +336,10 @@ export const useStore = create<StoreState>()(
         }
       },
       removeFromCart: async (productId) => {
-        const { currentUser } = get();
+        const { currentUser, cart } = get();
         console.log('🔄 removeFromCart called:', { productId, currentUser });
+        console.log('🔄 Current cart items:', cart);
+        console.log('🔄 Looking for item with ID:', productId);
         
         if (currentUser) {
           try {
@@ -356,9 +358,11 @@ export const useStore = create<StoreState>()(
             } else {
               console.log('🔄 No backendId found, removing locally');
               // If no backendId, just remove locally
-              set((state) => ({
-                cart: state.cart.filter(item => item.id !== productId)
-              }));
+              set((state) => {
+                const newCart = state.cart.filter(item => item.id !== productId);
+                console.log('🔄 Cart after local removal:', newCart);
+                return { cart: newCart };
+              });
             }
           } catch (error) {
             console.error('Failed to remove from cart:', error);
@@ -370,9 +374,11 @@ export const useStore = create<StoreState>()(
         } else {
           console.log('🔄 User not authenticated, removing locally');
           // For unauthenticated users, just remove locally
-          set((state) => ({
-            cart: state.cart.filter(item => item.id !== productId)
-          }));
+          set((state) => {
+            const newCart = state.cart.filter(item => item.id !== productId);
+            console.log('🔄 Cart after local removal (unauthenticated):', newCart);
+            return { cart: newCart };
+          });
         }
       },
       updateCartQuantity: async (productId, quantity) => {

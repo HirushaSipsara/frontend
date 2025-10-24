@@ -79,7 +79,12 @@ export function Cart({ isOpen, onClose }: CartProps) {
                               variant="ghost"
                               size="icon"
                               className="h-6 w-6"
-                              onClick={() => removeFromCart(item.id)}
+                              onClick={() => {
+                                console.log("🗑️ Removing item from cart:", item);
+                                console.log("🗑️ Item ID:", item.id);
+                                console.log("🗑️ Item backendId:", item.backendId);
+                                removeFromCart(item.id);
+                              }}
                             >
                               <X className="h-3 w-3" />
                             </Button>
