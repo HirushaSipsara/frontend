@@ -306,12 +306,14 @@ export const useStore = create<StoreState>()(
           }
           console.log('✅ Backend API call successful');
             
-          // Sync with backend to get the proper backend IDs
+          // Wait a moment for backend to process, then sync to get backend IDs
+          console.log('🔄 Waiting for backend to process...');
+          await new Promise(resolve => setTimeout(resolve, 500));
+          
           console.log('🔄 Syncing cart with backend to get backend IDs...');
           await get().syncCartWithBackend();
           console.log('✅ Cart synced with backend');
           console.log('✅ Item added to cart successfully');
-          alert(`✅ ${product.name} added to cart!`);
         } catch (error) {
           console.error('❌ Failed to add to cart:', error);
           alert(`❌ Failed to add to cart: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -343,25 +345,33 @@ export const useStore = create<StoreState>()(
               console.log('🔄 Using backend ID for removal:', cartItem.backendId);
               await apiClient.removeFromCart((cartItem as any).backendId);
               console.log('✅ Backend removal successful');
+              
+              // Wait a moment then sync to ensure consistency
+              await new Promise(resolve => setTimeout(resolve, 300));
+              await get().syncCartWithBackend();
+              console.log('✅ Cart synced after removal');
             } else {
-              console.log('⚠️ Still no backendId found after sync, skipping backend removal');
+              console.log('⚠️ Still no backendId found after sync, removing locally only');
+              // Remove locally
+              set((state) => ({
+                cart: state.cart.filter(item => item.id !== productId)
+              }));
             }
           } catch (error) {
             console.error('Failed to remove from backend:', error);
-            console.log('🔄 Continuing with local removal despite backend error');
+            console.log('🔄 Removing locally despite backend error');
+            set((state) => ({
+              cart: state.cart.filter(item => item.id !== productId)
+            }));
           }
+        } else {
+          // Not authenticated, remove locally
+          console.log('🔄 User not authenticated, removing locally');
+          set((state) => ({
+            cart: state.cart.filter(item => item.id !== productId)
+          }));
         }
-        
-        // Always remove locally regardless of backend status
-        console.log('🔄 Removing item locally...');
-        set((state) => {
-          const newCart = state.cart.filter(item => item.id !== productId);
-          console.log('🔄 Cart before removal:', state.cart.length, 'items');
-          console.log('🔄 Cart after removal:', newCart.length, 'items');
-          console.log('🔄 Removed item ID:', productId);
-          return { cart: newCart };
-        });
-        console.log('✅ Item removed from cart successfully');
+        console.log('✅ Item removal complete');
       },
       updateCartQuantity: async (productId, quantity) => {
         const { currentUser } = get();
@@ -384,15 +394,12 @@ export const useStore = create<StoreState>()(
             if (cartItem && 'backendId' in cartItem && cartItem.backendId) {
               console.log('🔄 Using backend ID for update:', cartItem.backendId);
               await apiClient.updateCartItem((cartItem as any).backendId, quantity);
-              // Update local cart instead of syncing
-              set((state) => ({
-                cart: quantity <= 0 
-                  ? state.cart.filter(item => item.id !== productId)
-                  : state.cart.map(item =>
-                      item.id === productId ? { ...item, quantity } : item
-                    )
-              }));
-              console.log('✅ Cart item updated locally for authenticated user');
+              console.log('✅ Backend update successful');
+              
+              // Wait a moment then sync to ensure consistency
+              await new Promise(resolve => setTimeout(resolve, 300));
+              await get().syncCartWithBackend();
+              console.log('✅ Cart synced after quantity update');
             } else {
               console.log('⚠️ Still no backendId found after sync, updating locally only');
               // If no backendId, just update locally
