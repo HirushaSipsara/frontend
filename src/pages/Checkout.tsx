@@ -111,12 +111,17 @@ const Checkout = () => {
   };
 
   const totals = useMemo(() => {
-    const subtotal = getCartTotal();
-    const tax = subtotal * 0.08;
-    const shipping = subtotal > 50 ? 0 : 5.99;
-    const total = subtotal + tax + shipping;
-    return { subtotal, tax, shipping, total };
-  }, [getCartTotal]);
+    // Calculate subtotal with current personalization prices
+    const subtotal = cart.reduce((total, item) => {
+      const basePrice = item.price * item.quantity;
+      const extraPrice = getCurrentExtraPrice(item) * item.quantity;
+      return total + basePrice + extraPrice;
+    }, 0);
+
+    const shipping = subtotal > 5000 ? 0 : 0; // Free shipping
+    const total = subtotal + shipping;
+    return { subtotal, tax: 0, shipping, total };
+  }, [cart]);
 
   const handlePlaceOrder = async () => {
     if (cart.length === 0 || isPlacingOrder) return;
@@ -837,19 +842,11 @@ const Checkout = () => {
                   <span>Rs {totals.subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span>Tax</span>
-                  <span>Rs {totals.tax.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-sm">
                   <span>Shipping</span>
-                  <span>
-                    {totals.shipping === 0
-                      ? "Free"
-                      : `Rs ${totals.shipping.toFixed(2)}`}
-                  </span>
+                  <span>Free</span>
                 </div>
                 <Separator />
-                <div className="flex justify-between font-semibold">
+                <div className="flex justify-between font-semibold text-lg">
                   <span>Total</span>
                   <span>Rs {totals.total.toFixed(2)}</span>
                 </div>
