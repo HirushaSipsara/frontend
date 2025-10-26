@@ -9,6 +9,7 @@ import { useStore } from "@/hooks/useStore";
 import { useToast } from "@/hooks/use-toast";
 import { Header } from "@/components/Header";
 import { ShoppingCart, Trash2, Plus, Minus, X, RotateCcw } from "lucide-react";
+import { calculateExtraCost } from "@/lib/personalization-utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -97,6 +98,17 @@ const Checkout = () => {
       forceClearCartState();
     }
   }, [justCompletedCheckout, cart.length, forceClearCartState]);
+
+  // Helper function to get current extra price based on latest pricing logic
+  const getCurrentExtraPrice = (item: any) => {
+    if (
+      item.personalizationDetails &&
+      Object.keys(item.personalizationDetails).length > 0
+    ) {
+      return calculateExtraCost(item.personalizationDetails);
+    }
+    return 0;
+  };
 
   const totals = useMemo(() => {
     const subtotal = getCartTotal();
@@ -681,9 +693,9 @@ const Checkout = () => {
                           <Badge variant="outline" className="text-xs">
                             Rs {item.price.toFixed(2)} each
                           </Badge>
-                          {item.extraPrice && item.extraPrice > 0 && (
+                          {getCurrentExtraPrice(item) > 0 && (
                             <Badge variant="secondary" className="text-xs">
-                              +Rs {item.extraPrice.toFixed(2)} extras
+                              +Rs {getCurrentExtraPrice(item).toFixed(2)} extras
                             </Badge>
                           )}
                           {item.stock && item.stock !== 999 && (
@@ -748,21 +760,23 @@ const Checkout = () => {
                         <p className="font-semibold text-lg">
                           Rs
                           {(
-                            (item.price + (item.extraPrice || 0)) *
+                            (item.price + getCurrentExtraPrice(item)) *
                             item.quantity
                           ).toFixed(2)}
                         </p>
                         {item.quantity > 1 && (
                           <p className="text-xs text-muted-foreground">
                             Rs{" "}
-                            {(item.price + (item.extraPrice || 0)).toFixed(2)} ×{" "}
-                            {item.quantity}
+                            {(item.price + getCurrentExtraPrice(item)).toFixed(
+                              2
+                            )}{" "}
+                            × {item.quantity}
                           </p>
                         )}
-                        {item.extraPrice && item.extraPrice > 0 && (
+                        {getCurrentExtraPrice(item) > 0 && (
                           <p className="text-xs text-muted-foreground">
                             Base: Rs {item.price.toFixed(2)} + Rs
-                            {item.extraPrice.toFixed(2)} extras
+                            {getCurrentExtraPrice(item).toFixed(2)} extras
                           </p>
                         )}
                       </div>
